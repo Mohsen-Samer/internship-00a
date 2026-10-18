@@ -37,7 +37,8 @@ Resolving = edit the file so it looks how it *should*, delete the three marker l
    Hello Everyone
    Hola Mundo
    ```
-5. Remove all conflict markers, save, stage the file and commit to finish the merge.
+5. Remove all conflict markers, save, stage the file and run `git commit` (no `-m`) to finish the merge.
+   An editor opens with a ready-made "Merge branch 'spanish'" message — save and close it.
 
 ## Check
 

@@ -155,7 +155,7 @@ case "$EX" in
     cd "$ROOT"
     branch=$(git branch --show-current)
     check "You're on a branch other than main" "git switch -c add-<your-github-username>" bash -c "[[ '$branch' != main && -n '$branch' ]]"
-    mine=$(git diff --name-only main...HEAD -- interns/ 2>/dev/null | grep -v _TEMPLATE | head -1)
+    mine=$(git diff --name-only --relative main...HEAD -- interns/ 2>/dev/null | grep -v _TEMPLATE | head -1)
     check "You added a file in interns/" "cp interns/_TEMPLATE.md interns/<username>.md" test -n "$mine"
     if [[ -n "$mine" ]]; then
       check "Your file has no leftover TODOs" "fill in every section" bash -c "! grep -q TODO '$mine'"

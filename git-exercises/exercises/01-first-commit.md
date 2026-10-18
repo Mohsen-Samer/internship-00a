@@ -21,8 +21,10 @@ cd sandbox/01
 
 ## Tasks
 
-1. Turn the folder into a repository.
+1. Turn the folder into a repository. ⚠️ First run `pwd` — it must end in `sandbox/01`.
+   Running `git init` anywhere else (like `git-exercises/`) creates a repo in the wrong place.
 2. Create a file `hello.txt` containing exactly: `Hello, Git!`
+   (That's the file's *content*. The commit *message* in step 5 is something different.)
 3. Run `git status`. Notice the file is **untracked** (red).
 4. Stage it, run `git status` again — now it's **staged** (green).
 5. Commit it with the message **`Add hello file`**

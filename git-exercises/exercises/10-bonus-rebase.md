@@ -32,7 +32,14 @@ Interactive rebase (`-i`) lets you squash, reword, reorder or drop commits.
    ```
 3. In the editor, keep the first line as `pick`, change the other two to `squash` (or `s`).
 4. Save & close. In the next editor, replace the messages with: **`Add search feature`**
+   (lines starting with `#` are ignored — you can leave them).
 5. Check the graph again — beautiful. ✨
+
+<details><summary>Stuck in a weird editor (Vim)?</summary>
+
+Press `i` to type, `Esc` when done, then `:wq` + Enter to save and close.
+To mess up safely: `git rebase --abort` puts everything back.
+</details>
 
 ## Check
 

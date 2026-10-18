@@ -16,11 +16,13 @@ This one happens in **this repository** (your fork), not in a sandbox.
 
 ## Tasks
 
-1. Make sure you're up to date on `main`:
+1. From the `git-exercises/` folder, make sure you're up to date with the **original** repo:
    ```bash
    git switch main
-   git pull
+   git pull upstream main
    ```
+   *Error "'upstream' does not appear to be a git repository"?* Add it once:
+   `git remote add upstream https://github.com/fathelbab/internship-00a.git`
 2. Create a branch named **`add-<your-github-username>`**.
 3. Copy the template:
    ```bash
@@ -32,9 +34,12 @@ This one happens in **this repository** (your fork), not in a sandbox.
    ```bash
    git push -u origin add-<your-github-username>
    ```
-7. Run the checker from the repo root: `./scripts/check.sh 09`
-8. On GitHub, click **"Compare & pull request"**. Make sure the PR goes
-   **from** `your-fork:add-<username>` **to** `original-repo:main`.
+   First push? Git asks you to sign in to GitHub (a browser window opens). GitHub doesn't accept
+   your account password on the command line.
+7. Run the checker from the `git-exercises/` folder: `./scripts/check.sh 09`
+8. On your fork's GitHub page, click **"Compare & pull request"**. Make sure the PR goes
+   **from** `<your-username>/internship-00a : add-<username>`
+   **to** `fathelbab/internship-00a : main`.
 9. Write a good PR description: *what* you changed and *why*. Request a review from your mentor.
 
 ## Responding to review 💬
