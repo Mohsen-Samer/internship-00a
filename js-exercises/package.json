@@ -1,0 +1,23 @@
+{
+  "name": "js-fundamentals-exercises",
+  "version": "1.0.0",
+  "description": "JavaScript fundamentals exercises for interns — make the tests pass!",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test",
+    "test:01": "node --test exercises/01-variables-and-types/exercise.test.js",
+    "test:02": "node --test exercises/02-conditionals/exercise.test.js",
+    "test:03": "node --test exercises/03-functions/exercise.test.js",
+    "test:04": "node --test exercises/04-arrays/exercise.test.js",
+    "test:05": "node --test exercises/05-objects/exercise.test.js",
+    "test:06": "node --test exercises/06-strings-and-loops/exercise.test.js",
+    "test:07": "node --test exercises/07-async/exercise.test.js",
+    "test:08": "node --test exercises/08-classes/exercise.test.js",
+    "test:09": "node --test exercises/09-dom-todo-app/todo.test.js",
+    "watch:01": "node --test --watch exercises/01-variables-and-types/exercise.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
