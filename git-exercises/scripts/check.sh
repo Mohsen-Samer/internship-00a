@@ -3,23 +3,48 @@
 # Usage: ./scripts/check.sh 01
 set -uo pipefail
 
+# Run from PowerShell/cmd or double-clicked, Windows opens this in a new Git Bash (mintty) window
+# that closes as soon as the script ends. Keep it open so the results can be read.
+if [[ -t 0 ]] && ps -p "$PPID" 2>/dev/null | grep -q mintty; then
+  trap 'echo; read -rp "Press Enter to close this window..."' EXIT
+fi
+
 EX="${1:-}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SANDBOX="$ROOT/sandbox/$EX"
 PASS=0; FAIL=0
 
 ok()   { echo "  ✅ $1"; PASS=$((PASS+1)); }
-bad()  { echo "  ❌ $1"; [[ -n "${2:-}" ]] && echo "     💡 hint: $2"; FAIL=$((FAIL+1)); }
-check(){ # check "description" "hint" command...
-  local desc="$1" hint="$2"; shift 2
-  if "$@" >/dev/null 2>&1; then ok "$desc"; else bad "$desc" "$hint"; fi
+bad()  { # bad "description" ["hint"] ["details"]
+  echo "  ❌ $1"
+  [[ -n "${3:-}" ]] && sed 's/^/     │ /' <<<"$3"
+  [[ -n "${2:-}" ]] && echo "     💡 hint: $2"
+  FAIL=$((FAIL+1))
+}
+check(){ # check "description" "hint" command...  (on failure, logs the command and its output)
+  local desc="$1" hint="$2" out; shift 2
+  if out=$("$@" 2>&1); then ok "$desc"
+  else bad "$desc" "$hint" "ran: $*${out:+$'\n'$out}"; fi
 }
 
+# Helpers print what they actually found when they fail, so check() can log it.
 tracked()     { git ls-files --error-unmatch "$1"; }
-not_tracked() { ! git ls-files --error-unmatch "$1"; }
-clean()       { [[ -z "$(git status --porcelain)" ]]; }
-has_msg()     { git log --format=%s | grep -qxF "$1"; }
-file_has()    { grep -qF "$2" "$1"; }
+not_tracked() {
+  if git ls-files --error-unmatch "$1" >/dev/null 2>&1; then echo "$1 is still tracked by Git"; return 1; fi
+}
+clean() {
+  local st; st=$(git status --porcelain)
+  [[ -z "$st" ]] || { echo "uncommitted changes:"; echo "$st"; return 1; }
+}
+has_msg() {
+  git log --format=%s 2>/dev/null | grep -qxF "$1" && return 0
+  echo "commit messages found:"; git log --format='  %h %s' 2>&1; return 1
+}
+file_has() {
+  grep -qF "$2" "$1" 2>/dev/null && return 0
+  if [[ -f "$1" ]]; then echo "$1 contains:"; head -20 "$1"; else echo "$1 does not exist"; fi
+  return 1
+}
 
 if [[ -z "$EX" ]]; then echo "Usage: ./scripts/check.sh <exercise-number>"; exit 1; fi
 

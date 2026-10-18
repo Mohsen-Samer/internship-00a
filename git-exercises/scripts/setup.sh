@@ -3,6 +3,12 @@
 # Usage: ./scripts/setup.sh 01
 set -euo pipefail
 
+# Run from PowerShell/cmd or double-clicked, Windows opens this in a new Git Bash (mintty) window
+# that closes as soon as the script ends. Keep it open so the output can be read.
+if [[ -t 0 ]] && ps -p "$PPID" 2>/dev/null | grep -q mintty; then
+  trap 'echo; read -rp "Press Enter to close this window..."' EXIT
+fi
+
 EX="${1:-}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SANDBOX="$ROOT/sandbox/$EX"
